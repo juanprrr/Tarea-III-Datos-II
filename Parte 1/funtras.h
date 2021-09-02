@@ -252,7 +252,17 @@ cpp_bin_float_100 root_t(cpp_bin_float_100 x, int a){
     }
     return x1;
 }
-
+cpp_bin_float_100 power_t(cpp_bin_float_100 a, cpp_bin_float_100 x){
+    /**
+     * @Brief Funcion para calcular el valor de funciones de la forma f(x) = a^x
+     * utilizando las propiedades de logaritmos
+     * 1. e^ln[f(x)] = f(x)
+     * 2. ln(a^x) = x * ln(a)
+     */
+    cpp_bin_float_100 logNatural  = x*ln_t(a);
+    cpp_bin_float_100 result = exp_t(logNatural);
+    return result;
+}
 cpp_bin_float_100 pi(){
     /**
      * @Brief Función para  aproximar la constante matematica Pi
@@ -264,20 +274,16 @@ cpp_bin_float_100 pi(){
     cpp_bin_float_100 tol = 0.00000001;
     cpp_bin_float_100 error = tol+1;
 
-    cpp_bin_float_100 sk = 0.0;
     cpp_bin_float_100 sk1 = 0.0;
     cpp_bin_float_100 num = 0.0;
     cpp_bin_float_100 den = 0.0;
     while (k <= iterMax){
-        num = pow(-1, k);
+        num = 4.0*pow(-1, k);
         den = div_tt(2*k + 1);
-        sk1 = num*den + sk;
-        error = abs((sk1-sk)/sk1);
-        if (error < tol) break;
-        sk = sk1;
+        sk1 = num*den + sk1;
         k++;
     }
-    return 4*sk1;
+    return sk1;
 }
 
 cpp_bin_float_100 log_t(cpp_bin_float_100 x, cpp_bin_float_100 a){
@@ -300,6 +306,13 @@ cpp_bin_float_100 log_t(cpp_bin_float_100 x, cpp_bin_float_100 a){
 }
 
 cpp_bin_float_100 asin_t(cpp_bin_float_100 x){
+    /**
+     * @Brief Función para calcular el valor de la funcion matematica arcsin(x) del dato ingresado
+     * de acuerdo con la aproximacion por series de Taylor que converge cuando |x| <= 1
+     * @param x es el argumento de la funcion
+     * @return sin^⁻1 (x)
+     */
+    /// Definicion de parametros condicionales
     int k = 0;
     int iterMax = 5000;
     cpp_bin_float_100 tol = 0.00000001;
@@ -370,5 +383,5 @@ void example(){
     double euler = (double)exp_t(-1.0);
     double pii = (double)pi();
     double total = (double)(root_t(sen + ln, 3)*div_tt(cos) + log_t(euler, pii));
-    cout << total << endl;
+    cout <<"Resultado: " << total << endl;
 }
